@@ -1,5 +1,5 @@
 ## libSilkCodec
-Cross-platform silk codec wrap library depends on [silk-v3-decoder](https://github.com/kn007/silk-v3-decoder).
+Cross-platform silk codec wrap library depends on [ploverlake/silk](https://github.com/ploverlake/silk).
 
 ## Clone & Build
 ```bash
@@ -38,4 +38,4 @@ Cross-platform silk codec wrap library depends on [silk-v3-decoder](https://gith
 - [x] Static library
 
 ## Credits
-- [silk-v3-decoder](https://github.com/kn007/silk-v3-decoder)
+- [ploverlake/silk](https://github.com/ploverlake/silk)
