@@ -24,7 +24,7 @@ int silkDecode(unsigned char* silkData, int dataLen, int sampleRate, cb_codec ca
 /**
  * Encode PCM data to SILK
  *
- * @param pcmData silk file data
+ * @param pcmData pcm data
  *
  * @param dataLen data length
  *
