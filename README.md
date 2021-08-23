@@ -2,8 +2,9 @@
 Cross-platform silk codec wrap library depends on [ploverlake/silk](https://github.com/ploverlake/silk).
 
 ## Clone & Build
-```bash
 
+Linux/Unix like
+```bash
   # clone
   $ git clone https://github.com/KonataDev/libSilkCodec --recurse-submodules
   $ cd libSilkCodec
@@ -14,6 +15,23 @@ Cross-platform silk codec wrap library depends on [ploverlake/silk](https://gith
   # or
   $ chmod +x build.sh
   $ ./build.sh
+```
+
+Windows
+```bash
+  # make sure you have
+  # installed the Visual Studio
+
+  # clone
+  > git clone https://github.com/KonataDev/libSilkCodec --recurse-submodules
+  > cd libSilkCodec
+
+  # make it
+  > cmake .
+  > msbuild SilkCodec.sln
+
+  # or
+  # double click the `build.bat`
 ```
 
 ## Example
