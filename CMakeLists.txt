@@ -20,13 +20,13 @@ link_directories(
 ## Include headers
 # Add all the files needed to compile here
 include_directories(
-  silk/silk/interface/
-  silk/silk/src/
+  silk/src/SILK_SDK_SRC_ARM_v1.0.9/interface/
+  silk/src/SILK_SDK_SRC_ARM_v1.0.9/src/
 )
 
 ## Including silk src
 file(GLOB SILK_SRC
-  silk/silk/src/*.c
+  silk/src/SILK_SDK_SRC_ARM_v1.0.9/src/*.c
 )
 
 ## Build and link
