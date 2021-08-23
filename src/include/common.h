@@ -6,13 +6,16 @@
 #include <SKP_Silk_SDK_API.h>
 #include <SKP_Silk_SigProc_FIX.h>
 
+#include <stdlib.h>
+#include <string.h>
+
 /* Define codec specific settings */
 #define MAX_INPUT_FRAMES        5
 #define MAX_FRAME_LENGTH        480
 #define FRAME_LENGTH_MS         20
 #define MAX_API_FS_KHZ          48
 #define MAX_LBRR_DELAY          2
-#define MAX_BYTES_PER_FRAME     250 // Equals peak bitrate of 100 kbps 
+#define MAX_BYTES_PER_FRAME     250 // Equals peak bitrate of 100 kbps
 
 #ifdef _SYSTEM_IS_BIG_ENDIAN
 /* Function to convert a little endian int16 to a */
@@ -33,9 +36,6 @@ void swap_endian(
   }
 }
 #endif
-
-// Codec callback function
-typedef void (cb_codec)(unsigned char* p, int len);
 
 #ifdef _WIN32
 #define __dllexport __declspec(dllexport)

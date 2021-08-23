@@ -30,13 +30,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /* Silk encoder test program */
 /*****************************/
 
-#include "common.h"
-#include <stdio.h>
-#include <stdbool.h>
-#include <string.h>
+#include "include/common.h"
+#include "include/codec.h"
 
 int __dllexport
-silkEncode(unsigned char* pcmData, int dataLen, int sampleRate, cb_codec callback)
+silkEncode(unsigned char* pcmData, int dataLen,
+int sampleRate, cb_codec callback, void* userdata)
 {
   size_t    counter;
   SKP_int16 nBytes;
@@ -56,7 +55,6 @@ silkEncode(unsigned char* pcmData, int dataLen, int sampleRate, cb_codec callbac
   SKP_int32 targetRate_bps = 25000;
   SKP_int32 smplsSinceLastPacket, packetSize_ms = 20;
   SKP_int32 frameSizeReadFromFile_ms = 20;
-  SKP_int32 packetLoss_perc = 0;
 
   if (max_internal_fs_Hz == 0) {
     max_internal_fs_Hz = 24000;
@@ -71,8 +69,7 @@ silkEncode(unsigned char* pcmData, int dataLen, int sampleRate, cb_codec callbac
   SKP_int32 complexity_mode = 2;
 #endif
 
-  SKP_int32 DTX_enabled = 0, INBandFEC_enabled = 0;
-  SKP_SILK_SDK_EncControlStruct encStatus = { 0 };  // Struct for status of encoder
+  SKP_SILK_SDK_EncControlStruct encStatus = { 0 }; // Struct for status of encoder
   SKP_SILK_SDK_EncControlStruct encControl = { 0 }; // Struct for input to encoder
   encControl.API_sampleRate = sampleRate;
   encControl.maxInternalSampleRate = max_internal_fs_Hz;
@@ -87,7 +84,7 @@ silkEncode(unsigned char* pcmData, int dataLen, int sampleRate, cb_codec callbac
     goto failed;
 
   /* Add Silk header to stream */
-  callback("\x02#!SILK_V3", sizeof(char) * 10);
+  callback(userdata, (void*)"\x02#!SILK_V3", sizeof(char) * 10);
 
   /* Create Encoder */
   result = SKP_Silk_SDK_Get_Encoder_Size(&encSizeBytes);
@@ -131,14 +128,12 @@ silkEncode(unsigned char* pcmData, int dataLen, int sampleRate, cb_codec callbac
 #ifdef _SYSTEM_IS_BIG_ENDIAN
       nBytes_LE = nBytes;
       swap_endian(&nBytes_LE, 1);
-      callback(&nBytes_LE, sizeof(SKP_int16));
-      // fwrite(&nBytes_LE, sizeof(SKP_int16), 1, bitOutFile);
+      callback(userdata, (void*)&nBytes_LE, sizeof(SKP_int16));
 #else
-      callback((unsigned char*)&nBytes, sizeof(SKP_int16));
+      callback(userdata, (void*)&nBytes, sizeof(SKP_int16));
 #endif
-
       /* Write payload */
-      callback((unsigned char*)payload, sizeof(SKP_uint8) * nBytes);
+      callback(userdata, payload, sizeof(SKP_uint8) * nBytes);
 
       smplsSinceLastPacket = 0;
     }

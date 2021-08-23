@@ -30,17 +30,18 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /* Silk decoder test program */
 /*****************************/
 
-#include "common.h"
-#include <stdio.h>
+#include "include/common.h"
+#include "include/codec.h"
 
 int __dllexport
-silkDecode(unsigned char* silkData, int dataLen, int sampleRate, cb_codec callback)
+silkDecode(unsigned char* silkData, int dataLen,
+int sampleRate, cb_codec callback, void* userdata)
 {
   SKP_uint8 payload[MAX_BYTES_PER_FRAME * MAX_INPUT_FRAMES * (MAX_LBRR_DELAY + 1)];
   SKP_uint8* payloadEnd = NULL, * payloadToDec = NULL;
   SKP_int16 nBytesPerPacket[MAX_LBRR_DELAY + 1];
   SKP_int16 out[((FRAME_LENGTH_MS * MAX_API_FS_KHZ) << 1) * MAX_INPUT_FRAMES], * outPtr;
-  SKP_int32 totPackets, remainPackets = 0;
+  SKP_int32 remainPackets = 0;
   SKP_int16 len, nBytes, totalLen = 0;
   SKP_int32 decSizeBytes, result;
   unsigned char* psRead = silkData;
@@ -49,8 +50,10 @@ silkDecode(unsigned char* silkData, int dataLen, int sampleRate, cb_codec callba
   SKP_SILK_SDK_DecControlStruct DecControl;
 
   /* Check Silk header */
-  if (strncmp(psRead, "\x02#!SILK_V3", 0x0A) != 0)
-    goto failed; psRead += 0x0A;
+  if (strncmp((char*)psRead, "\x02#!SILK_V3", 0x0A) != 0)
+  goto failed;
+  
+  psRead += 0x0A;
 
   /* Create decoder */
   result = SKP_Silk_SDK_Get_Decoder_Size(&decSizeBytes);
@@ -61,7 +64,6 @@ silkDecode(unsigned char* silkData, int dataLen, int sampleRate, cb_codec callba
   result = SKP_Silk_SDK_InitDecoder(psDec);
   if (result) goto failed;
 
-  totPackets = 0;
   payloadEnd = payload;
   DecControl.framesPerPacket = 1;
   DecControl.API_sampleRate = sampleRate;
@@ -147,7 +149,7 @@ silkDecode(unsigned char* silkData, int dataLen, int sampleRate, cb_codec callba
     swap_endian(out, totalLen);
 #endif
 
-    callback((unsigned char*)out, sizeof(SKP_int16) * totalLen);
+    callback(userdata, (void*)out, sizeof(SKP_int16) * totalLen);
 
     /* Update buffer */
     SKP_int16 totBytes = 0;

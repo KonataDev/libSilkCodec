@@ -36,3 +36,9 @@ add_library(${PROJECT_NAME} SHARED
   src/encoder.c
   src/decoder.c
 )
+
+add_library(${PROJECT_NAME}_static STATIC
+  ${SILK_SRC}
+  src/encoder.c
+  src/decoder.c
+)
