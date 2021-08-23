@@ -19,22 +19,23 @@ Cross-platform silk codec wrap library depends on [silk-v3-decoder](https://gith
 ## Example
 ```C
   // Decode silk to pcm
-  ret = silkDecode(data, dataLen, 24000, codecCallback);
+  ret = silkDecode(data, dataLen, 24000, codecCallback, NULL);
   if(!ret) return 0xDEADC0DE;
 
   // Encode pcm to silk
-  ret = silkEncode(data, dataLen, 24000, codecCallback);
+  ret = silkEncode(data, dataLen, 24000, codecCallback, NULL);
   if(!ret) return 0xDEADC0DE;
 
   // Decode or Encode callback
-  void codecCallback(unsigned char* p, int len) {
+  void codecCallback(void* userdata, unsigned char* p, int len) {
     writeData(p, len);
   }
 
 ```
 
 ## Todo
-- [ ] Callback with userdata
+- [x] Callback with userdata
+- [x] Static library
 
 ## Credits
 - [silk-v3-decoder](https://github.com/kn007/silk-v3-decoder)
