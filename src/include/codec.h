@@ -19,7 +19,7 @@ typedef void (cb_codec)(void* userdata, unsigned char* p, int len);
  *
  * @return 1 = success, 0 = failed
  */
-int silkDecode(unsigned char* silkData, int dataLen, int sampleRate, cb_codec callback, void* userdata);
+int __dllexport silkDecode(unsigned char* silkData, int dataLen, int sampleRate, cb_codec callback, void* userdata);
 
 /**
  * Encode PCM data to SILK
@@ -36,6 +36,6 @@ int silkDecode(unsigned char* silkData, int dataLen, int sampleRate, cb_codec ca
  *
  * @return 1 = success, 0 = failed
  */
-int silkEncode(unsigned char* pcmData, int dataLen, int sampleRate, cb_codec callback, void* userdata);
+int __dllexport silkEncode(unsigned char* pcmData, int dataLen, int sampleRate, cb_codec callback, void* userdata);
 
 #endif /* _CODEC_H_ */
