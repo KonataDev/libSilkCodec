@@ -56,4 +56,7 @@ Windows
 - [x] Static library
 
 ## Credits
-- [ploverlake/silk](https://github.com/ploverlake/silk)
+- [ploverlake/silk](https://github.com/ploverlake/silk) offer the original SILK source code.
+
+## License
+licensed under MIT with ❤.
