@@ -52,7 +52,7 @@ int sampleRate, cb_codec callback, void* userdata)
   /* default settings */
   SKP_int32 API_fs_Hz = sampleRate;
   SKP_int32 max_internal_fs_Hz = 0;
-  SKP_int32 targetRate_bps = 25000;
+  SKP_int32 targetRate_bps = 24000;
   SKP_int32 smplsSinceLastPacket, packetSize_ms = 20;
   SKP_int32 frameSizeReadFromFile_ms = 20;
 
